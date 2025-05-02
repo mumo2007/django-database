@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from my_app.models import Customer
 
@@ -17,3 +17,19 @@ def home(request):
         count = Customer.objects.all().count()
         print(f"{count}Customers")
     return render(request, 'home.html')
+
+
+def show(request):
+    data = Customer.objects.all() #select*from customers
+    return render(request, 'show.html', {"data": data})
+
+
+def delete(request, id):
+    user=Customer.objects.get(id=id)
+    user.delete()
+    return redirect('show-page')
+
+
+def details(request, id):
+    user=Customer.objects.get(id=id)
+    return render(request, 'details.html', {"user": user})
